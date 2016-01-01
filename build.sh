@@ -10,7 +10,7 @@ if [ version_count -eq 0 ]; then
 fi
 echo "Select a sourcemod version to build against:"
 for (( i=0; i<"$version_count"; i++)); do
-  echo "($i) ${versions[$i]}"
+  printf '(%i) %s' "$i" "${versions[$i]}"
 done
 read i
 version="${versions[$i]}"
