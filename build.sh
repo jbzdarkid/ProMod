@@ -20,8 +20,8 @@ if [ -z "ls scripting" ]; then
 else
   for source in scripting/*.sp; do
     if [ $source != ".DS_Store" ]; then
-      plugin=`echo $source | sed -e s/^scripting/plugins/ | sed s/sp$/smx/`
-      output=`./$version/spcomp $source -o=$plugin -i=include -i=$version/include`
+      plugin="$(echo $source | sed -e s/^scripting/plugins/ | sed s/sp$/smx/)"
+      output="$(./$version/spcomp $source -o=$plugin -i=include -i=$version/include)"
       echo $output
       # if line[-3] == "Compilation aborted."
       # print 'Errors for file {source}:'.format(source=source)
