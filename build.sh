@@ -1,3 +1,5 @@
+#!/usr/bin/env sh
+
 test -e versions/.DS_Store || rm versions/.DS_Store # Prevent bugs on OSX
 declare -a versions
 versions=(versions/*)
