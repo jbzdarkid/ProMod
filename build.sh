@@ -15,7 +15,7 @@ done
 read i
 version="${versions[$i]}"
 
-if [ -z "ls scripting" ]; then
+if [ -z "$(ls scripting)" ]; then
   echo "No source files found!"
 else
   for source in scripting/*.sp; do
