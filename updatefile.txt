@@ -1,0 +1,20 @@
+"Updater"
+{
+	"Information"
+	{
+		"Version"
+		{
+			"Latest"	"1.0"
+		}
+		
+		"Notes"	"ProMod - A L4D2 competitive config always looking to improve!"
+		"Notes" "Version 1.0 Changelog:"
+		"Notes"	" - Initial release"
+	}
+	
+	"Files"
+	{
+		"Plugin"	"Path_SM/plugins/double_getup.smx"
+		"Source"	"Path_SM/scripting/double_getup.sp"
+	}
+}
