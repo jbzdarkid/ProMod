@@ -24,7 +24,7 @@ read i
 version="${versions[$i]}"
 
 for source in scripting/*.sp; do
-  plugin="$(echo "$source" | sed -e s/^scripting/plugins/ | sed s/sp$/smx/)"
+  plugin="$(echo "$source" | sed -e 's/^scripting/plugins/' | sed 's/sp$/smx/')"
   IFS=$'\n' read -d '' -ra output <<< "$(./"$version"/spcomp "$source" -o="$plugin" -i=include -i="$version"/include)"
   lines=${#output[@]}
 
