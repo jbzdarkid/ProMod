@@ -39,6 +39,8 @@
 #include <l4d2_direct> // Needed for forcing players to have a getup animation.
 #pragma semicolon 1
 
+#define UPDATE_URL "https://raw.githubusercontent.com/jbzdarkid/ProMod/master/scripting/double_getup.sp"
+
 public Plugin:myinfo =
 {
     name = "L4D2 Get-Up Fix",
@@ -100,12 +102,21 @@ public OnPluginStart() {
     HookEvent("revive_success", player_revive);
     InitSurvivorModelTrie(); // Not necessary, but speeds up IdentifySurvivor() calls.
 
-    if(lateLoad) {
+    if (lateLoad) {
         for (new client=1; client <= MaxClients; client++) {
             if(!IsClientInGame(client)) continue;
             OnClientPostAdminCheck(client);
         }
     }
+    if (LibraryExists("updater")) {
+    	Updater_AddPlugin(UPDATE_URL);
+    }
+}
+
+public OnLibraryAdded(const String:name[]) {
+	if (strcmp(name, "updater") == 0) {
+		Updater_AddPlugin(UPDATE_URL);
+	}
 }
 
 // Used to check for tank rocks and tank punches.
