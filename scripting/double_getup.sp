@@ -47,7 +47,7 @@ public Plugin:myinfo =
     author = "Darkid",
     description = "Fixes the problem when, after completing a getup animation, you have another one.",
     version = "3.6",
-    url = "https://github.com/jbzdarkid/Double-Getup"
+    url = UPDATE_URL
 }
 
 new bool:lateLoad;
