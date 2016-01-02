@@ -1,34 +1,56 @@
 #!/usr/bin/env sh
 
-test -e versions/.DS_Store || rm versions/.DS_Store # Prevent bugs on OSX
+quiet=0
+if [ $# -gt 0 ] && [ "$1" = "-q" ]; then
+  quiet=1
+fi
+if [ -z "$(ls versions)" ]; then
+  echo "No versions found!"
+  exit 1
+fi
+if [ -z "$(ls scripting)" ]; then
+  echo "No source files found!"
+  exit 2
+fi
+
 declare -a versions
 versions=(versions/*)
-version_count="${#versions[@]}"
-if [ version_count -eq 0 ]; then
-  echo "No versions found!"
-  exit -1
-fi
 echo "Select a sourcemod version to build against:"
-for (( i=0; i<"$version_count"; i++)); do
+for ((i=0; i<"${#versions[@]}"; i++)); do
   printf '(%i) %s\n' "$i" "${versions[$i]}"
 done
+printf '>'
 read i
 version="${versions[$i]}"
 
-if [ -z "$(ls scripting)" ]; then
-  echo "No source files found!"
-else
-  for source in scripting/*.sp; do
-    if [ $source != ".DS_Store" ]; then
-      plugin="$(echo "$source" | sed -e s/^scripting/plugins/ | sed s/sp$/smx/)"
-      output="$(./"$version"/spcomp "$source" -o="$plugin" -i=include -i="$version"/include)"
-      echo "$output"
-      # if line[-3] == "Compilation aborted."
-      # print 'Errors for file {source}:'.format(source=source)
-          #   if not quiet:
-          #     for line in lines[3:-4]:
-          #       print line
-          #     print '\n'
+for source in scripting/*.sp; do
+  plugin="$(echo "$source" | sed -e s/^scripting/plugins/ | sed s/sp$/smx/)"
+  IFS=$'\n' read -d '' -ra output <<< "$(./"$version"/spcomp "$source" -o="$plugin" -i=include -i="$version"/include)"
+  lines=${#output[@]}
+
+  if [ "${output[(($lines-2))]}" == "Compilation aborted." ]; then
+    if [ $quiet -eq 1 ]; then
+      printf 'Fatal error in %s\n' "$source"
+    else
+      for ((i=2; i<$lines-2; i++)); do
+          echo "${output[$i]}"
+        done
+      fi
+  elif [[ ${output[(($lines-1))]} =~ Errors\.$ ]]; then
+    if [ $quiet -eq 1 ]; then
+      printf 'Error in %s\n' "$source"
+    else
+      for ((i=2; i<$lines-2; i++)); do
+        echo "${output[$i]}"
+      done
     fi
-  done
-fi
+  elif [ $lines -gt 7 ]; then
+    if [ $quiet -eq 1 ]; then
+      printf 'Warning in %s\n' "$source"
+    else
+      for ((i=2; i<$lines-5; i++)); do
+        echo "${output[$i]}"
+      done
+    fi
+  fi
+done
