@@ -153,8 +153,9 @@ enum TFCond
 	TFCond_HalloweenTiny,
 	TFCond_HalloweenInHell,
 	TFCond_HalloweenGhostMode,
-
-	TFCond_DodgeChance = 79,
+	TFCond_MiniCritOnKill,
+	TFCond_DodgeChance, //79
+	TFCond_ObscuredSmoke = 79,
 	TFCond_Parachute,
 	TFCond_BlastJumping,
 	TFCond_HalloweenKart,
@@ -162,7 +163,8 @@ enum TFCond
 	TFCond_BalloonHead,
 	TFCond_MeleeOnly,
 	TFCond_SwimmingCurse,
-	TFCond_HalloweenKartNoTurn,
+	TFCond_HalloweenKartNoTurn, //87
+	TFCond_FreezeInput = 87,
 	TFCond_HalloweenKartCage,
 	TFCond_HasRune,
 	TFCond_RuneStrength,
@@ -173,24 +175,37 @@ enum TFCond
 	TFCond_RuneWarlock,
 	TFCond_RunePrecision, // 96
 	TFCond_RuneAgility,
+	TFCond_GrapplingHook,
+	TFCond_GrapplingHookSafeFall,
+	TFCond_GrapplingHookLatched,
+	TFCond_GrapplingHookBleeding,
+	TFCond_AfterburnImmune,
+	TFCond_RuneKnockout,
+	TFCond_RuneImbalance,
+	TFCond_CritRuneTemp,
+	TFCond_PasstimeInterception,
+	TFCond_SwimmingNoEffects,
 };
 
 const Float:TFCondDuration_Infinite = -1.0;
 
 enum TFHoliday
 {
-	TFHoliday_Birthday = 1,
-	TFHoliday_Halloween,
-	TFHoliday_Christmas,
-	TFHoliday_EndOfTheLine,
-	TFHoliday_ValentinesDay,
-	TFHoliday_MeetThePyro,
-	TFHoliday_SpyVsEngyWar,
-	TFHoliday_FullMoon,
-	TFHoliday_HalloweenOrFullMoon,
-	TFHoliday_HalloweenOrFullMoonOrValentines,
-	TFHoliday_AprilFools,
+	TFHoliday_Invalid = -1
 };
+
+public const TFHoliday:TFHoliday_Birthday;
+public const TFHoliday:TFHoliday_Halloween;
+public const TFHoliday:TFHoliday_Christmas;
+public const TFHoliday:TFHoliday_EndOfTheLine;
+public const TFHoliday:TFHoliday_CommunityUpdate;
+public const TFHoliday:TFHoliday_ValentinesDay;
+public const TFHoliday:TFHoliday_MeetThePyro;
+public const TFHoliday:TFHoliday_SpyVsEngyWar;
+public const TFHoliday:TFHoliday_FullMoon;
+public const TFHoliday:TFHoliday_HalloweenOrFullMoon;
+public const TFHoliday:TFHoliday_HalloweenOrFullMoonOrValentines;
+public const TFHoliday:TFHoliday_AprilFools;
 
 enum TFObjectType
 {
@@ -276,12 +291,12 @@ native TF2_SetPlayerPowerPlay(client, bool:enabled);
  *
  * @param client		Player's index.
  * @param team			Team to disguise the player as (only TFTeam_Red and TFTeam_Blue have an effect)
- * @param class			TFClassType class to disguise the player as
+ * @param classType		TFClassType class to disguise the player as
  * @param target		Specific target player to disguise as (0 for any)
  * @noreturn
  * @error				Invalid client index, client not in game, or no mod support.
  */
-native TF2_DisguisePlayer(client, TFTeam:team, TFClassType:class, target=0);
+native TF2_DisguisePlayer(client, TFTeam:team, TFClassType:classType, target=0);
 
 /**
  * Removes the current disguise from a client. Only has an effect on spies.
@@ -397,32 +412,26 @@ native TF2_RemoveWearable(client, wearable);
  *
  * @param client		Index of the client to which the conditon is being added.
  * @param condition     Condition that is being added.
- * @noreturn
  */
-forward TF2_OnConditionAdded(client, TFCond:condition);
+forward void TF2_OnConditionAdded(client, TFCond:condition);
 
 /**
  * Called after a condition is removed from a player
  *
  * @param client		Index of the client to which the condition is being removed.
  * @param condition		Condition that is being removed.
- * @noreturn
  */
-forward TF2_OnConditionRemoved(client, TFCond:condition);
+forward void TF2_OnConditionRemoved(client, TFCond:condition);
 
 /**
  * Called when the server enters the Waiting for Players round state
- *
- * @noreturn
  */
-forward TF2_OnWaitingForPlayersStart();
+forward void TF2_OnWaitingForPlayersStart();
 
 /**
  * Called when the server exits the Waiting for Players round state
- *
- * @noreturn
  */
-forward TF2_OnWaitingForPlayersEnd();
+forward void TF2_OnWaitingForPlayersEnd();
 
 /**
  * Called when a player attempts to use a teleporter to decide if the player should be allowed to teleport.

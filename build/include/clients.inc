@@ -56,12 +56,12 @@ enum NetFlow
  */
 enum AuthIdType
 {
-	AuthId_Engine = 0, /**< The game-specific auth string as returned from the engine */
-
+	AuthId_Engine = 0,     /**< The game-specific auth string as returned from the engine */
+	
 	// The following are only available on games that support Steam authentication.
-	AuthId_Steam2, /**< Steam2 rendered format, ex "STEAM_1:1:4153990" */
-	AuthId_Steam3, /**< Steam3 rendered format, ex "[U:1:8307981]" */
-	AuthId_SteamID64, /**< A SteamID64 (uint64) as a String, ex "76561197968573709" */
+	AuthId_Steam2,         /**< Steam2 rendered format, ex "STEAM_1:1:4153990" */
+	AuthId_Steam3,         /**< Steam3 rendered format, ex "[U:1:8307981]" */
+	AuthId_SteamID64,      /**< A SteamID64 (uint64) as a String, ex "76561197968573709" */
 };
 
 /**
@@ -99,7 +99,7 @@ forward bool:OnClientConnect(client, String:rejectmsg[], maxlen);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientConnected(client);
+forward void OnClientConnected(client);
 
 /**
  * Called when a client is entering the game.
@@ -115,7 +115,7 @@ forward OnClientConnected(client);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientPutInServer(client);
+forward void OnClientPutInServer(client);
 
 /**
  * Called when a client is disconnecting from the server.
@@ -123,7 +123,7 @@ forward OnClientPutInServer(client);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientDisconnect(client);
+forward void OnClientDisconnect(client);
 
 /**
  * Called when a client is disconnected from the server.
@@ -131,7 +131,7 @@ forward OnClientDisconnect(client);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientDisconnect_Post(client);
+forward void OnClientDisconnect_Post(client);
 
 /**
  * Called when a client is sending a command.
@@ -141,9 +141,33 @@ forward OnClientDisconnect_Post(client);
  *
  * @param client		Client index.
  * @param args			Number of arguments.
- * @noreturn
+ * @return				Plugin_Handled blocks the command from being sent,
+ *						and Plugin_Continue resumes normal functionality.
  */
 forward Action:OnClientCommand(client, args);
+
+/**
+ * Called when a client is sending a KeyValues command.
+ *
+ * @param client		Client index.
+ * @param kv			Editable KeyValues data to be sent as the command.
+ *						(This handle should not be stored and will be closed
+ *						after this forward completes.)
+ * @return				Plugin_Handled blocks the command from being sent,
+ *						and Plugin_Continue resumes normal functionality.
+ */
+forward Action OnClientCommandKeyValues(int client, KeyValues kv);
+
+/**
+ * Called after a client has sent a KeyValues command.
+ *
+ * @param client		Client index.
+ * @param kv			KeyValues data sent as the command.
+ *						(This handle should not be stored and will be closed
+ *						after this forward completes.)
+ * @noreturn
+ */
+forward void OnClientCommandKeyValues_Post(int client, KeyValues kv);
 
 /**
  * Called whenever the client's settings are changed.
@@ -151,20 +175,20 @@ forward Action:OnClientCommand(client, args);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientSettingsChanged(client);
+forward void OnClientSettingsChanged(client);
 
 /**
- * Called when a client receives a Steam ID.  The state of a client's 
+ * Called when a client receives an auth ID.  The state of a client's 
  * authorization as an admin is not guaranteed here.  Use 
  * OnClientPostAdminCheck() if you need a client's admin status.
  *
  * This is called by bots, but the ID will be "BOT".
  *
  * @param client		Client index.
- * @param auth			Client auth string.
+ * @param auth			Client Steam2 id, if available, else engine auth id.
  * @noreturn
  */
-forward OnClientAuthorized(client, const String:auth[]);
+forward void OnClientAuthorized(client, const String:auth[]);
 
 /**
  * Called once a client is authorized and fully in-game, but 
@@ -199,7 +223,7 @@ forward Action:OnClientPreAdminCheck(client);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientPostAdminFilter(client);
+forward void OnClientPostAdminFilter(client);
 
 /**
  * Called once a client is authorized and fully in-game, and 
@@ -211,7 +235,7 @@ forward OnClientPostAdminFilter(client);
  * @param client		Client index.
  * @noreturn
  */
-forward OnClientPostAdminCheck(client);
+forward void OnClientPostAdminCheck(client);
 
 /**
  * This function will be deprecated in a future release.  Use the MaxClients variable instead.
@@ -286,6 +310,7 @@ native bool:GetClientIP(client, String:ip[], maxlen, bool:remport=true);
  * @return				True on success, false otherwise.
  * @error				If the client is not connected or the index is invalid.
  */
+#pragma deprecated Use GetClientAuthId
 native bool:GetClientAuthString(client, String:auth[], maxlen, bool:validate=true);
 
 /**
