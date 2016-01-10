@@ -11,7 +11,7 @@ fi
 
 for source in scripting/*.sp; do
   plugin="$(echo "$source" | sed -e 's/^scripting/plugins/' | sed 's/sp$/smx/')"
-  IFS=$'\n' read -d '' -ra output <<< "$(./build/spcomp/spcomp "$source" -o="$plugin" -i=include -i=build/spcomp/include)"
+  IFS=$'\n' read -d '' -ra output <<< "$(./build/spcomp "$source" -o="$plugin" -i=include -i=build/include)"
   lines=${#output[@]}
 
   if [ "${output[(($lines-2))]}" == "Compilation aborted." ]; then
