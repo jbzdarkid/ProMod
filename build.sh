@@ -4,28 +4,14 @@ quiet=0
 if [ $# -gt 0 ] && [ "$1" = "-q" ]; then
   quiet=1
 fi
-if [ -z "$(ls versions)" ]; then
-  echo "No versions found!"
-  exit 1
-fi
 if [ -z "$(ls scripting)" ]; then
   echo "No source files found!"
-  exit 2
+  exit 1
 fi
 
-declare -a versions
-versions=(versions/*)
-echo "Select a sourcemod version to build against:"
-for ((i=0; i<"${#versions[@]}"; i++)); do
-  printf '(%i) %s\n' "$i" "${versions[$i]}"
-done
-printf '>'
-read i
-version="${versions[$i]}"
-
 for source in scripting/*.sp; do
-  plugin="$(echo "$source" | sed -e s/^scripting/plugins/ | sed s/sp$/smx/)"
-  IFS=$'\n' read -d '' -ra output <<< "$(./"$version"/spcomp "$source" -o="$plugin" -i=include -i="$version"/include)"
+  plugin="$(echo "$source" | sed -e 's/^scripting/plugins/' | sed 's/sp$/smx/')"
+  IFS=$'\n' read -d '' -ra output <<< "$(./build/spcomp "$source" -o="$plugin" -i=include -i=build/include)"
   lines=${#output[@]}
 
   if [ "${output[(($lines-2))]}" == "Compilation aborted." ]; then
