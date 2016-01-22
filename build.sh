@@ -22,7 +22,7 @@ for source in scripting/*.sp; do
           echo "${output[$i]}"
         done
       fi
-  elif [[ ${output[(($lines-1))]} =~ Errors\.$ ]]; then
+  elif [[ ${output[(($lines-1))]} =~ Error?s\.$ ]]; then
     if [ $quiet -eq 1 ]; then
       printf 'Error in %s\n' "$source"
     else
