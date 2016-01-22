@@ -1,42 +1,87 @@
 #!/usr/bin/env sh
 
-quiet=0
-if [ $# -gt 0 ] && [ "$1" = "-q" ]; then
-  quiet=1
-fi
 if [ -z "$(ls scripting)" ]; then
   echo "No source files found!"
   exit 1
 fi
 
-for source in scripting/*.sp; do
-  plugin="$(echo "$source" | sed -e 's/^scripting/plugins/' | sed 's/sp$/smx/')"
-  IFS=$'\n' read -d '' -ra output <<< "$(./build/spcomp "$source" -o="$plugin" -i=include -i=build/include)"
-  lines=${#output[@]}
+# Functions {{{1
+# verbose() {{{2
+verbose() {
+  # $1 is the message to be printed
+  local message="$1"
+  # $2 is the verbosity threshold (default: 1)
+  local threshold="${2:-1}"
 
-  if [ "${output[(($lines-2))]}" == "Compilation aborted." ]; then
-    if [ $quiet -eq 1 ]; then
-      printf 'Fatal error in %s\n' "$source"
-    else
-      for ((i=2; i<$lines-2; i++)); do
-          echo "${output[$i]}"
-        done
-      fi
-  elif [[ ${output[(($lines-1))]} =~ Errors\.$ ]]; then
-    if [ $quiet -eq 1 ]; then
-      printf 'Error in %s\n' "$source"
-    else
-      for ((i=2; i<$lines-2; i++)); do
-        echo "${output[$i]}"
-      done
-    fi
-  elif [ $lines -gt 7 ]; then
-    if [ $quiet -eq 1 ]; then
-      printf 'Warning in %s\n' "$source"
-    else
-      for ((i=2; i<$lines-5; i++)); do
-        echo "${output[$i]}"
-      done
-    fi
+  if [ "$verbose" -ge "$threshold" ] && [ -z "$quiet" ]; then
+    echo "$message" >&2 || return 1
   fi
+}
+# verbose() 2}}}
+# error() {{{2
+error() {
+  #  is the message to be printed
+  local message="$1"
+
+  if [ -z "$quiet" ]; then
+    echo "$message" >&2 || return 1
+  fi
+}
+# error() 2}}}
+# sp_compile() {{{2
+sp_compile() {
+  # Compiles a plugin using spcomp
+  # $1: path to the spcomp binary
+  # $2: path to the source file
+  # $3: (optional) output file path
+
+  #{{{3 Arguments
+  if [ -z "$1" ]; then
+    error "Argument not optional."
+    return 1
+  elif [ ! -r "$1" ]; then
+    error "spcomp not readable or not found at given path: $1"
+    return 1
+  elif [ ! -x "$1" ]; then
+    error "$1 is not executable."
+    return 1
+  else
+    local spcomp_path="$1"
+  fi
+
+  if [ -z "$2" ]; then
+    error "sp_compile: Argument not optional."
+    return 1
+  elif [ ! -r "$2" ]; then
+    error "sp_compile: Source file not readable or not found."
+    return 1
+  else
+    local source_file="$2"
+  fi
+
+  if [ -n "$3" ]; then
+    local output_file="-o $3"
+  fi
+# Arguments 3}}}
+
+# mkfifo compoutput1
+# mkfifo compoutput2
+
+  exec "$spcomp_path" "$source_file" "$output_file" \ 
+    -i=include \ 
+    -i="$(dirname "$spcomp_path")"/include
+}
+# sp_compile() 2}}}
+# Functions 1}}}
+
+for sourcefile in scripting/*.sp; do
+  sourcefile="$(echo "$sourcefile" | sed -e 's/^scripting/plugins/' -e 's/sp$/smx/')"
+  outputfile="$(basename "$sourcefile".smx)"
+  spcompfile="./build/spcomp"
+
+  printf "Compiling %s With %s Into %s\n" "$sourcefile" "$spcompfile" "$outputfile"
+  sp_compile "$spcompfile" "$sourcefile" "$outputfile"
+
 done
+
+# vim: ft=sh foldmethod=marker:
