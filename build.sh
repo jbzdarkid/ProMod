@@ -64,9 +64,6 @@ sp_compile() {
   fi
 # Arguments 3}}}
 
-# mkfifo compoutput1
-# mkfifo compoutput2
-
   exec "$spcomp_path" "$source_file" "$output_file" \ 
     -i=include \ 
     -i="$(dirname "$spcomp_path")"/include
