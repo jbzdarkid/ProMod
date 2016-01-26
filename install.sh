@@ -51,6 +51,8 @@ tar -xvzf steamcmd_linux.tar.gz
 
 # Todo...
 # Clone git repo
+#   - https://github.com/jbzdarkid/ProMod/archive/master.zip (absolute latest)
+#   - https://api.github.com/repos/jbzdarkid/ProMod/zipball (latest release)
 # Copy with overwrite into steam install
 # Create startup / shutdown scripts
 # Start server
