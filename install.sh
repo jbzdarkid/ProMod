@@ -47,7 +47,7 @@ wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
 
 tar -xvzf steamcmd_linux.tar.gz
 
-# ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 +app_update 222860 validate +quit
+# ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
 
 # Todo...
 # Clone git repo
