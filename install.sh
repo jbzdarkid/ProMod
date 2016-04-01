@@ -48,6 +48,21 @@ wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
 tar -xvzf steamcmd_linux.tar.gz
 
 # ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
+# Download and install ProMod
+cd ~/
+test -e ProMod || mkdir promod
+cd ProMod
+download https://api.github.com/repos/jbzdarkid/ProMod/zipball
+chmod +x build.sh && ./build.sh
+download http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz && tar -xvzf stripper-1.2.2-linux.tar.gz
+download https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286 && unzip socket_3.0.1.zip
+download https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952 && unzip l4dtoolz(L4D2)-1.0.0.9h.zip
+download http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
+download https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=1428308284 && unzip GeoIPCity-1.1.2.zip
+download https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=1359488782 && unzip "builtinvotes 0.5.8.zip"
+download https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556
+download http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz && tar -xvzf dhooks-2.0.4-hg82-linux.tar.gz
+
 
 # Todo...
 # Clone git repo
