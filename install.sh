@@ -1,4 +1,6 @@
-(which wget && alias download="wget") || (which curl && alias download="curl")
+function use_wget() {wget "$1" ;}
+function use_curl() {curl "$1" > "$1" ;}
+(which wget && alias download=use_wget) || (which curl && alias download=use_curl)
 
 # Determining os and arch
 platform=none
