@@ -1,5 +1,5 @@
 if [ ! -z "$(which wget)" ]; then
-  function download() { wget "$1" ; }
+  function download() { wget "$1" -O "$2" ; }
 fi
 if [ ! -z "$(which curl)" ]; then
   function download() { curl "$1" "$2" ; }
@@ -70,7 +70,7 @@ download https://api.github.com/repos/jbzdarkid/ProMod/zipball
 chmod +x build.sh && ./build.sh
 download http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz stripper-1.2.2-linux.tar.gz && tar -xvzf stripper-1.2.2-linux.tar.gz
 download https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286 socket_3.0.1.zip && unzip socket_3.0.1.zip
-download https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952 l4dtoolz(L4D2)-1.0.0.9h.zip && unzip l4dtoolz(L4D2)-1.0.0.9h.zip
+download https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952 "l4dtoolz(L4D2)-1.0.0.9h.zip" && unzip "l4dtoolz(L4D2)-1.0.0.9h.zip"
 download http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz GeoLiteCity.dat.gz && tar -xvzf GeoLiteCity.dat.gz
 download https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=1428308284 GeoIPCity-1.1.2.zip && unzip GeoIPCity-1.1.2.zip
 download https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=1359488782 "builtinvotes 0.5.8.zip" && unzip "builtinvotes 0.5.8.zip"
