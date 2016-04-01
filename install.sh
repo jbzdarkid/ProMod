@@ -1,3 +1,6 @@
+(which wget && alias download="wget") || (which curl && alias download="curl")
+
+# Determining os and arch
 platform=none
 UNAME=`uname`
 case "$UNAME" in
@@ -25,6 +28,7 @@ if [ "$platform" == linux ]; then
   platform="$platform$UNAME"
 fi
 
+# Installing dependencies
 case "$platform" in
   debian64)
     sudo apt-get install lib32gcc1
@@ -37,14 +41,11 @@ case "$platform" in
   ;;
 esac
 
-# We create a new user who will install and run the server, as it is a security risk to run servers as root.
-useradd -m steam
-
+# Download and install the server
 cd ~/
 test -e steamcmd || mkdir steamcmd
 cd steamcmd
-wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-
+download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz > steamcmd_linux.tar.gz
 tar -xvzf steamcmd_linux.tar.gz
 
 # ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
