@@ -1,6 +1,9 @@
-function use_wget() {wget "$1" ;}
-function use_curl() {curl "$1" > "$1" ;}
-(which wget && alias download=use_wget) || (which curl && alias download=use_curl)
+if [ ! -z "$(which wget)" ]; then
+  function download() { wget "$1" ; }
+fi
+if [ ! -z "$(which curl)" ]; then
+  function download() { curl "$1" "$2" ; }
+fi
 
 # Determining os and arch
 platform=none
@@ -47,7 +50,7 @@ esac
 cd ~/
 test -e steamcmd || mkdir steamcmd
 cd steamcmd
-download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz > steamcmd_linux.tar.gz
+download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz steamcmd_linux.tar.gz
 tar -xvzf steamcmd_linux.tar.gz
 COUNT=0
 while [ ! -d "server01" ] && [ $COUNT -lt 10 ]; do
@@ -65,14 +68,14 @@ test -e ProMod || mkdir promod
 cd ProMod
 download https://api.github.com/repos/jbzdarkid/ProMod/zipball
 chmod +x build.sh && ./build.sh
-download http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz && tar -xvzf stripper-1.2.2-linux.tar.gz
-download https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286 && unzip socket_3.0.1.zip
-download https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952 && unzip l4dtoolz(L4D2)-1.0.0.9h.zip
-download http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz
-download https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=1428308284 && unzip GeoIPCity-1.1.2.zip
-download https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=1359488782 && unzip "builtinvotes 0.5.8.zip"
-download https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556
-download http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz && tar -xvzf dhooks-2.0.4-hg82-linux.tar.gz
+download http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz stripper-1.2.2-linux.tar.gz && tar -xvzf stripper-1.2.2-linux.tar.gz
+download https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286 socket_3.0.1.zip && unzip socket_3.0.1.zip
+download https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952 l4dtoolz(L4D2)-1.0.0.9h.zip && unzip l4dtoolz(L4D2)-1.0.0.9h.zip
+download http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz GeoLiteCity.dat.gz && tar -xvzf GeoLiteCity.dat.gz
+download https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=1428308284 GeoIPCity-1.1.2.zip && unzip GeoIPCity-1.1.2.zip
+download https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=1359488782 "builtinvotes 0.5.8.zip" && unzip "builtinvotes 0.5.8.zip"
+download https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556 smrcon.ext.2.l4d2.so
+download http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz dhooks-2.0.4-hg82-linux.tar.gz && tar -xvzf dhooks-2.0.4-hg82-linux.tar.gz
 
 
 # Todo...
