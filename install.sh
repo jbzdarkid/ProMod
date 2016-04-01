@@ -47,8 +47,12 @@ test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz > steamcmd_linux.tar.gz
 tar -xvzf steamcmd_linux.tar.gz
+COUNT=0
+while [ ! -d "server01" && $COUNT -lt 10 ]; do
+  let COUNT=COUNT+1
+  ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
+done
 
-# ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
 # Download and install ProMod
 cd ~/
 test -e ProMod || mkdir promod
