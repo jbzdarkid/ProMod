@@ -64,7 +64,7 @@ fi
 
 # Download and install ProMod
 cd ~/
-test -e ProMod || mkdir promod
+test -e ProMod || mkdir ProMod
 cd ProMod
 download https://api.github.com/repos/jbzdarkid/ProMod/zipball
 chmod +x build.sh && ./build.sh
@@ -79,9 +79,7 @@ download http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg8
 
 
 # Todo...
-# Clone git repo
-#   - https://github.com/jbzdarkid/ProMod/archive/master.zip (absolute latest)
-#   - https://api.github.com/repos/jbzdarkid/ProMod/zipball (latest release)
-# Copy with overwrite into steam install
+# Copy over external dependencies.
 # Create startup / shutdown scripts
 # Start server
+# Last line of script should print public ip
