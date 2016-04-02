@@ -52,11 +52,13 @@ test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz "steamcmd_linux.tar.gz" && tar -xvzf "steamcmd_linux.tar.gz"
 COUNT=0
-while [ ! -d "server01" ] && [ $COUNT -lt 10 ]; do
+while [ ! -d "../server01" ] && [ $COUNT -lt 10 ]; do
   let COUNT=COUNT+1
-  ./steamcmd.sh +login anonymous +force_install_dir ./server01 +app_update 222860 validate +quit
+  ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit
 done
-if [ ! -d "server01" ]; then
+cd ~/
+# ${status:(-52)}
+if [ ! -d "server01/" ]; then
   echo "L4D2 Server install failed!"
   exit -1
 fi
