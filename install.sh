@@ -7,7 +7,7 @@ fi
 
 # Determining os and arch
 platform=none
-UNAME=`uname`
+UNAME="$(uname)"
 case "$UNAME" in
   Linux)
     platform=linux
@@ -18,13 +18,13 @@ case "$UNAME" in
 esac
 
 if [ "$platform" == linux ]; then
-  UNAME=`uname -a`
+  UNAME="$(uname -a)"
   if [[ $UNAME =~ Debian ]]; then # if "Debian" in `uname -a` then
     platform=debian
   else
     platform=rhel
   fi
-  UNAME=`uname -m`
+  UNAME="$(uname -m)"
   if [ "$UNAME" == x86_64 ]; then
     UNAME=64
   else
