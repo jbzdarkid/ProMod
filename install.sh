@@ -35,14 +35,15 @@ fi
 
 # Installing dependencies
 case "$platform" in
+  # debian32)
   debian64)
-    sudo apt-get install lib32gcc1
+    sudo apt-get -q -y install lib32gcc1
   ;;
   rhel32)
-    sudo apt-get install glibc libstdc++
+    sudo apt-get -q -y install glibc libstdc++
   ;;
   rhel64)
-    yum install glibc.i686 libstdc++.i686
+    yum -q -y install glibc.i686 libstdc++.i686
   ;;
 esac
 
