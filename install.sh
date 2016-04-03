@@ -55,7 +55,7 @@ test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz "steamcmd_linux.tar.gz" && tar -xvzf "steamcmd_linux.tar.gz"
 COUNT=0
-while [ -d "../server01/steamapps/downloading" ] && ([ $COUNT -lt 20 ] || [ $COUNT -eq 0 ]); do
+while ([ -d "~/server01/steamapps/downloading" ] && [ $COUNT -lt 20 ]) || [ $COUNT -eq 0 ]; do
   let COUNT=COUNT+1
   ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 +quit
 done
