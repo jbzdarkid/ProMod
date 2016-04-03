@@ -1,3 +1,4 @@
+SERVER_NAME=${PWD##*/} # Assume the folder we're in is the intended name of the server.
 case "$1" in
   [Ss]tart)
     if [ ! -z "$(which wget)" ]; then
@@ -6,7 +7,6 @@ case "$1" in
     if [ ! -z "$(which curl)" ]; then
       IP_ADDR="$(curl http://ipinfo.io/ip)"
     fi
-    SERVER_PATH="$(pwd)/srcds_run"
     case "$((RANDOM % 13))" in
       1)
         START_MAP="c1m1_hotel"
@@ -48,10 +48,11 @@ case "$1" in
         START_MAP="c13m1_alpinecreek"
       ;;
     esac
-    screen -mdS server01 taskset -c 0 "$SERVER_PATH" -game left4dead2 -tickrate 60 -maxplayers 30 -ip "$IPADDR" +map "$START_MAP" +exec run.cfg
+    screen -mdS $SERVER_NAME taskset -c 0 "$(pwd)/srcds_run" -game left4dead2 -tickrate 60 -maxplayers 30 -ip "$IP_ADDR" +map "$START_MAP" +exec run.cfg
+    echo "$SERVER_NAME started on $START_MAP at public ip $IP_ADDR"
   ;;
   [Ss]top | [Qq]uit)
-    screen -r server01 -X quit
+    screen -r $SERVER_NAME -X quit
   ;;
   [Rr]estart)
     ./server.sh Stop
