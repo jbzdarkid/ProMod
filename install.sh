@@ -1,3 +1,5 @@
+rm install.sh # Clean up after ourselves
+
 if [ ! -z "$(which wget)" ]; then
   function download() { wget "$1" -O "$2" ; }
 fi
@@ -79,7 +81,7 @@ download "https://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.0-git4525-linux.tar
 download "http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz" "stripper.tar.gz" && tar -xvzf "stripper.tar.gz"
 download "http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz" "dhooks2.tar.gz" && tar -xvzf "dhooks2.tar.gz"
 # Zipballs
-download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "jbzdarkid-ProMod-a269834" && chmod +x build.sh && ./build.sh && cp -r * ../addons/sourcemod/
+download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "jbzdarkid-ProMod-a269834" && chmod +x build.sh && ./build.sh && chmod +x server.sh && mv server.sh ~/server01 && cp -r * ../addons/sourcemod/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286" "socket.zip" && unzip "socket.zip"
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952" "l4dtoolz.zip" && unzip "l4dtoolz.zip" -d addons/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=142830828"4 "GeoIPCity.zip" && unzip "GeoIPCity.zip" -d addons/sourcemod/
@@ -89,10 +91,10 @@ download "https://github.com/jacob404/promod/blob/master/Fresh%20Install/addons/
 download "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz" "GeoIPCity.dat" && mv "GeoIPCity.dat" addons/sourcemod/configs/geoip/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556" "smrcon.ext.2.l4d2.so" && mv smrcon.ext.2.l4d2.so addons/sourcemod/extensions/
 # Done copying subfolders, move the main package
+cp -r addons/ ../server01/left4dead2
+cp -r cfg/ ../server01/left4dead2
 
-
-# Todo...
-# Copy over files into the install directory
-# Create startup / shutdown scripts
-# Start server (in screen)
-# Last line of script should print public ip
+# Cleanup and start server
+cd ..
+rm -rf temp/
+./server01/server.sh start
