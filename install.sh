@@ -35,16 +35,15 @@ if [ "$platform" == linux ]; then
   platform="$platform$UNAME"
 fi
 
-# Installing dependencies
+# Installing dependencies Source: https://developer.valvesoftware.com/wiki/SteamCMD#Linux
 case "$platform" in
-  # debian32)
-  debian64)
+  debian64 | ubuntu64)
     sudo apt-get -q -y install lib32gcc1
   ;;
-  rhel32)
+  rhel32 | centos32)
     sudo apt-get -q -y install glibc libstdc++
   ;;
-  rhel64)
+  rhel64 | centos64)
     yum -q -y install glibc.i686 libstdc++.i686
   ;;
 esac
