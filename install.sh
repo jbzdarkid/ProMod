@@ -53,10 +53,10 @@ cd ~/
 test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz "steamcmd_linux.tar.gz" && tar -xvzf "steamcmd_linux.tar.gz"
-while
+while true; do
   ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit
-  [ -e "../server01/srcds_run" ]
-do :; done
+  if [ -e "../server01/srcds_run" ]; then break; fi
+done
 
 cd ~/
 # Download, install, and copy over all our dependencies
