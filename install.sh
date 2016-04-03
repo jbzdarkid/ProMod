@@ -1,4 +1,4 @@
-rm install.sh # Clean up after ourselves
+# rm install.sh # Clean up after ourselves
 
 if [ ! -z "$(which wget)" ]; then
   function download() { wget "$1" -O "$2" ; }
