@@ -55,7 +55,7 @@ test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz "steamcmd_linux.tar.gz" && tar -xvzf "steamcmd_linux.tar.gz"
 COUNT=0
-while [ -d "downloading" ] && ([ $COUNT -lt 20 ] || [ $COUNT -eq 0 ]); do
+while [ -d "../server01/steamapps/downloading" ] && ([ $COUNT -lt 20 ] || [ $COUNT -eq 0 ]); do
   let COUNT=COUNT+1
   ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 +quit
 done
@@ -81,7 +81,7 @@ download "https://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.0-git4525-linux.tar
 download "http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz" "stripper.tar.gz" && tar -xvzf "stripper.tar.gz"
 download "http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz" "dhooks2.tar.gz" && tar -xvzf "dhooks2.tar.gz"
 # Zipballs
-download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "jbzdarkid-ProMod-a269834" && chmod +x build.sh && ./build.sh && chmod +x server.sh && mv server.sh ~/server01 && cp -r * ../addons/sourcemod/
+download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "jbzdarkid-ProMod-972f246" && chmod +x build.sh && ./build.sh && chmod +x server.sh && mv server.sh ~/server01 && cp -r * ../addons/sourcemod/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286" "socket.zip" && unzip "socket.zip"
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952" "l4dtoolz.zip" && unzip "l4dtoolz.zip" -d addons/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=142830828"4 "GeoIPCity.zip" && unzip "GeoIPCity.zip" -d addons/sourcemod/
