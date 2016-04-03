@@ -23,6 +23,8 @@ if [ "$platform" == linux ]; then
   UNAME="$(uname -a)"
   if [[ $UNAME =~ Debian ]]; then
     platform=debian
+  elif [[ $UNAME =~ ubuntu ]]; then
+    platform=ubuntu
   else
     platform=rhel
   fi
