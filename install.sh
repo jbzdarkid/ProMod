@@ -60,7 +60,7 @@ while [ -d "downloading" ] && ([ $COUNT -lt 20 ] || [ $COUNT -eq 0 ]); do
   ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 +quit
 done
 STATUS="$(./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit)"
-if [ "${STATUS:(-38)}" != "Success! App '222860' fully installed." ]
+if [ "${STATUS:(-38)}" != "Success! App '222860' fully installed." ]; then
   echo "$STATUS"
   echo "L4D2 Server install failed!"
   exit -1
