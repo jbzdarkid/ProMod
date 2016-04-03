@@ -53,19 +53,24 @@ test -e steamcmd || mkdir steamcmd
 cd steamcmd
 download https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz "steamcmd_linux.tar.gz" && tar -xvzf "steamcmd_linux.tar.gz"
 COUNT=0
-while [ ! -d "../server01" ] && [ $COUNT -lt 10 ]; do
+while [ -d "downloading" ] && [ $COUNT -lt 20 ]; do
   let COUNT=COUNT+1
-  ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit
+  ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 +quit
 done
-cd ~/
-# ${status:(-52)}
-if [ ! -d "server01/" ]; then
+STATUS="$(./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit)"
+if [ "${STATUS:(-38)}" != "Success! App '222860' fully installed." ]
+  echo "$STATUS"
   echo "L4D2 Server install failed!"
   exit -1
 fi
+cd ~/
+if [ ! -e "server01/srcds_run" ]; then
+  echo "$STATUS"
+  echo "L4D2 Server install failed!"
+  exit -2
+fi
 
 # Download, install, and copy over all our dependencies
-cd ~/
 test -e temp || mkdir temp
 cd temp
 # Tarballs
