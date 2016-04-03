@@ -1,4 +1,4 @@
-# rm install.sh # Clean up after ourselves
+rm install.sh # Clean up after ourselves
 
 if [ ! -z "$(which wget)" ]; then
   function download() { wget "$1" -O "$2" ; }
@@ -21,7 +21,7 @@ esac
 
 if [ "$platform" == linux ]; then
   UNAME="$(uname -a)"
-  if [[ $UNAME =~ Debian ]]; then # if "Debian" in `uname -a` then
+  if [[ $UNAME =~ Debian ]]; then
     platform=debian
   else
     platform=rhel
@@ -68,7 +68,7 @@ download "https://www.sourcemod.net/smdrop/1.6/sourcemod-1.6.0-git4525-linux.tar
 download "http://www.bailopan.net/stripper/files/stripper-1.2.2-linux.tar.gz" "stripper.tar.gz" && tar -xvzf "stripper.tar.gz"
 download "http://users.alliedmods.net/~drifter/builds/dhooks/2.0/dhooks-2.0.4-hg82-linux.tar.gz" "dhooks2.tar.gz" && tar -xvzf "dhooks2.tar.gz"
 # Zipballs
-download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "$(ls | grep jbzdarkid)" && chmod +x build.sh && ./build.sh && chmod +x server.sh && mv server.sh ~/server01 && cp -r * ../addons/sourcemod/ && cd ..
+download "https://api.github.com/repos/jbzdarkid/ProMod/zipball" "promod.zip" && unzip "promod.zip" && cd "$(ls | grep jbzdarkid)" && mv server.sh ~/server01 && cp -r * ../addons/sourcemod/ && cd ..
 download "https://forums.alliedmods.net/attachment.php?attachmentid=83286?attachmentid=83286" "socket.zip" && unzip "socket.zip"
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=1373147952" "l4dtoolz.zip" && unzip "l4dtoolz.zip" -d addons/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=142830828"4 "GeoIPCity.zip" && unzip "GeoIPCity.zip" -d addons/sourcemod/
@@ -84,5 +84,5 @@ cp -r cfg/ ../server01/left4dead2
 
 # Cleanup and start server
 cd ~/
-# rm -rf temp/
-./server01/server.sh start
+rm -rf temp/
+chmod +x ./server01/server.sh && ./server01/server.sh start
