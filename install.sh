@@ -57,6 +57,7 @@ until [ -e "../server01/srcds_run" ]; do
   ./steamcmd.sh +login anonymous +force_install_dir ../server01 +app_update 222860 validate +quit
 done
 
+cd ~/
 # Download, install, and copy over all our dependencies
 test -e temp || mkdir temp
 cd temp
@@ -77,10 +78,10 @@ download "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz"
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556" "smrcon.ext.2.l4d2.so" && mv smrcon.ext.2.l4d2.so addons/sourcemod/extensions/
 
 # Done copying subfolders, move the main package
-cp -r addons/ ~/server01/left4dead2
-cp -r cfg/ ~/server01/left4dead2
+cp -r addons/ ../server01/left4dead2
+cp -r cfg/ ../server01/left4dead2
 
 # Cleanup and start server
 cd ~/
-# rm -rf ~/temp
+# rm -rf temp/
 ./server01/server.sh start
