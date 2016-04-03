@@ -74,7 +74,7 @@ download "https://forums.alliedmods.net/attachment.php?attachmentid=122230&d=137
 download "https://forums.alliedmods.net/attachment.php?attachmentid=143904&d=142830828"4 "GeoIPCity.zip" && unzip "GeoIPCity.zip" -d addons/sourcemod/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=1359488782" "builtinvotes.zip" && unzip "builtinvotes.zip"
 # Uncompressed
-download "https://github.com/jacob404/promod/blob/master/Fresh%20Install/addons/sourcemod/extensions/left4downtown.ext.2.l4d2.so?raw=true" "left4downtown.ext.2.l4d2.so" && mv left4downtown.ext.2.l4d2.so addons/sourcemod/extensions/
+download "https://raw.githubusercontent.com/jacob404/promod/master/Fresh%20Install/addons/sourcemod/extensions/left4downtown.ext.2.l4d2.so" "left4downtown.ext.2.l4d2.so" && mv left4downtown.ext.2.l4d2.so addons/sourcemod/extensions/
 download "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz" "GeoIPCity.dat" && mv "GeoIPCity.dat" addons/sourcemod/configs/geoip/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556" "smrcon.ext.2.l4d2.so" && mv smrcon.ext.2.l4d2.so addons/sourcemod/extensions/
 
