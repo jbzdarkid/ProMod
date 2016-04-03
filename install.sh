@@ -75,11 +75,12 @@ download "https://forums.alliedmods.net/attachment.php?attachmentid=115240&d=135
 download "https://github.com/jacob404/promod/blob/master/Fresh%20Install/addons/sourcemod/extensions/left4downtown.ext.2.l4d2.so?raw=true" "left4downtown.ext.2.l4d2.so" && mv left4downtown.ext.2.l4d2.so addons/sourcemod/extensions/
 download "http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz" "GeoIPCity.dat" && mv "GeoIPCity.dat" addons/sourcemod/configs/geoip/
 download "https://forums.alliedmods.net/attachment.php?attachmentid=122493&d=1373577556" "smrcon.ext.2.l4d2.so" && mv smrcon.ext.2.l4d2.so addons/sourcemod/extensions/
+
 # Done copying subfolders, move the main package
-cp -r addons/ ../server01/left4dead2
-cp -r cfg/ ../server01/left4dead2
+cp -r addons/ ~/server01/left4dead2
+cp -r cfg/ ~/server01/left4dead2
 
 # Cleanup and start server
-cd ..
-rm -rf temp/
+cd ~/
+# rm -rf ~/temp
 ./server01/server.sh start
